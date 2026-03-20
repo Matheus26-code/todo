@@ -1,0 +1,7 @@
+CREATE TABLE tasks(
+    id      BIGSERIAL PRIMARY KEY,
+    title   VARCHAR(255) NOT NULL,
+    description VARCHAR(1000) NOT NULL,
+    status  VARCHAR(20) NOT NULL DEFAULT 'PENDING',
+    created_at TIMESTAMP NOT NULL
+)

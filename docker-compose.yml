@@ -1,0 +1,9 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postTest
+      POSTGRES_PASSWORD: batata01
+      POSTGRES_DB: todo
+    ports:
+      - "5432:5432"
