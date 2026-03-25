@@ -3,6 +3,7 @@ package com.mycrud.todo.controller;
 import com.mycrud.todo.dto.TaskRequestDTO;
 import com.mycrud.todo.dto.TaskResponseDTO;
 import com.mycrud.todo.service.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<TaskResponseDTO> createTask (@RequestBody TaskRequestDTO request) {
+    public ResponseEntity<TaskResponseDTO> createTask (@RequestBody @Valid TaskRequestDTO request) {
         TaskResponseDTO result = taskService.createTask(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
