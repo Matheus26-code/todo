@@ -5,6 +5,8 @@ import com.mycrud.todo.dto.TaskResponseDTO;
 import com.mycrud.todo.exception.ResourceNotFoundException;
 import com.mycrud.todo.model.Task;
 import com.mycrud.todo.repository.TaskRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.ResolutionException;
@@ -34,17 +36,15 @@ public class TaskService {
         );
     }
 
-    public List<TaskResponseDTO> listTasks() {
-        return taskRepository.findAll()
-                .stream()
+    public Page<TaskResponseDTO> listTasks(Pageable pageable) {
+        return taskRepository.findAll(pageable)
                 .map(task -> new TaskResponseDTO(
                         task.getId(),
                         task.getTitle(),
                         task.getDescription(),
                         task.getStatus(),
                         task.getCreatedAt()
-                ))
-                .toList();
+                ));
     }
 
     public TaskResponseDTO findTaskById (Long id) {

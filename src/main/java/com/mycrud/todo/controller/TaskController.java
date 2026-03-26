@@ -4,6 +4,11 @@ import com.mycrud.todo.dto.TaskRequestDTO;
 import com.mycrud.todo.dto.TaskResponseDTO;
 import com.mycrud.todo.service.TaskService;
 import jakarta.validation.Valid;
+import org.hibernate.query.SortDirection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +32,9 @@ public class TaskController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<TaskResponseDTO>> getAllTasks () {
-        List<TaskResponseDTO> result = taskService.listTasks();
+    public ResponseEntity<Page<TaskResponseDTO>> getAllTasks (
+            @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        Page<TaskResponseDTO> result = taskService.listTasks(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
