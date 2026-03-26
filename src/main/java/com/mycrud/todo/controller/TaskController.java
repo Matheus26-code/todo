@@ -1,5 +1,6 @@
 package com.mycrud.todo.controller;
 
+import com.mycrud.todo.dto.PageResponseDTO;
 import com.mycrud.todo.dto.TaskRequestDTO;
 import com.mycrud.todo.dto.TaskResponseDTO;
 import com.mycrud.todo.service.TaskService;
@@ -32,9 +33,9 @@ public class TaskController {
     }
 
     @GetMapping()
-    public ResponseEntity<Page<TaskResponseDTO>> getAllTasks (
+    public ResponseEntity<PageResponseDTO<TaskResponseDTO>> getAllTasks (
             @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-        Page<TaskResponseDTO> result = taskService.listTasks(pageable);
+        PageResponseDTO<TaskResponseDTO> result = taskService.listTasks(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

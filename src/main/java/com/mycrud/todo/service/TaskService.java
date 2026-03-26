@@ -1,5 +1,6 @@
 package com.mycrud.todo.service;
 
+import com.mycrud.todo.dto.PageResponseDTO;
 import com.mycrud.todo.dto.TaskRequestDTO;
 import com.mycrud.todo.dto.TaskResponseDTO;
 import com.mycrud.todo.exception.ResourceNotFoundException;
@@ -36,15 +37,22 @@ public class TaskService {
         );
     }
 
-    public Page<TaskResponseDTO> listTasks(Pageable pageable) {
-        return taskRepository.findAll(pageable)
-                .map(task -> new TaskResponseDTO(
-                        task.getId(),
-                        task.getTitle(),
-                        task.getDescription(),
-                        task.getStatus(),
-                        task.getCreatedAt()
-                ));
+    public PageResponseDTO<TaskResponseDTO> listTasks(Pageable pageable) {
+        Page<TaskResponseDTO> page = taskRepository.findAll(pageable)
+            .map(task -> new TaskResponseDTO(
+                            task.getId(),
+                            task.getTitle(),
+                            task.getDescription(),
+                            task.getStatus(),
+                            task.getCreatedAt()
+                    ));
+        return new PageResponseDTO<>(
+                page.getContent(),
+                page.getTotalPages(),
+                page.getTotalElements(),
+                page.isFirst(),
+                page.isLast()
+        );
     }
 
     public TaskResponseDTO findTaskById (Long id) {
